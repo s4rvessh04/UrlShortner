@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block head %}
+
+URLshortner
+
+{% endblock %}
+
+{% block body %}
+
+<div class="main_container">
+    <div class="main_heading">
+        <p1>SHORTNED<br>Url</p1>
+    </div>
+
+    <div class="main_app">
+        <div class="app">
+            <form method="POST">
+                <p>There you go...</p>
+                <textarea type="search" name="postUrl" class="box" style="resize: none;">{{link}}</textarea>
+                <button type="button" id="btncpy" class="btn">Copy</button>
+                <script>
+                    document.querySelector("button").onclick = function () {
+                        document.querySelector("textarea").select();
+                        document.execCommand('copy');
+                    };
+                </script>
+            </form>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

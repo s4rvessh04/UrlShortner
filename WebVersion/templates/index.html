@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block head %}
+
+ShortURLs
+
+{% endblock %}
+
+{% block body %}
+
+<nav><a href="/About" id="aboutme">About Me</a></nav>
+
+<div class="main_container">
+    <div class="main_heading">
+        <p1>URL's<br>Shortned</p1>
+    </div>
+    <div class="main_app">
+        <div class="app">
+            <form method="POST">
+                <p>Link</p>
+                <input type="search" name="getUrl" class="box">
+                <button type="submit" id="btnGet" class="btn">Get URL</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
