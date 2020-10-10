@@ -1,9 +1,10 @@
 from flask import Flask,url_for,redirect,render_template,request
 from main import slinkGen, shortenUrls
 import sqlite3
+import datetime
 
 app = Flask(__name__)
-
+today = datetime.date.today()
 
 @app.route("/", methods=["GET","POST"])
 def homepage():
@@ -19,7 +20,7 @@ def homepage():
 						keylink = c.execute("SELECT shorturl FROM database WHERE url=?",(enteredlink,)).fetchone()[0]
 						return redirect(url_for('getLink', link=keylink))
 				except TypeError:
-					c.execute("INSERT INTO database(url,newurl,shorturl) VALUES(?,?,?)",(enteredlink,slinkGen(),shortenUrls(),))
+					c.execute("INSERT INTO database(url,newurl,shorturl,date) VALUES(?,?,?,?)",(enteredlink,slinkGen(),shortenUrls(),today))
 					keylink = c.execute("SELECT shorturl FROM database WHERE url=?",(enteredlink,)).fetchone()[0]
 					return redirect(url_for('getLink', link=keylink))
 
@@ -60,3 +61,10 @@ def error():
 
 if __name__ == '__main__':
 	app.run(debug=True)
+	with sqlite3.connect("database.db") as conn:
+		c = conn.cursor()
+		rows = c.execute("SELECT date FROM database").fetchall()
+		for row in rows:
+			req = row[0]
+			if str(today) > req:
+				c.execute("DELETE FROM database WHERE date=?",(req,)).fetchall()

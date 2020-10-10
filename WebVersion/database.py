@@ -18,9 +18,7 @@ conn.execute(""" CREATE TABLE IF NOT EXISTS database(
 
 today = datetime.date.today()
 timedelta = datetime.timedelta(days=1)
-yesterday = today - timedelta
-print(str(today) == '2020-09-30')
-print(yesterday)
+# yesterday = today - timedelta
 
 
 class DataBase:
@@ -66,4 +64,10 @@ class DataBase:
 
 
 if __name__ == '__main__':
+	with conn:
+		rows = c.execute("SELECT date FROM database").fetchall()
+		for row in rows:
+			req = row[0]
+			if str(today) > req:
+				c.execute("DELETE FROM database WHERE date=?",(req,)).fetchall()
 	DataBase('foo').viewData()
